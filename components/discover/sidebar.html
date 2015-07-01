@@ -1,0 +1,46 @@
+
+<div 
+	class="categories-wrapper"
+	ng-controller="DiscoverGroupCtrl"
+>
+	<h1>Groups</h1>
+	<div class="search">
+		<input 
+			ng-model="groupFilter"
+			placeholder="Filter Groups"
+			type="text"
+
+			ng-touch="$event.stopPropagation()"
+	        user-select="true" 
+	        no-capture
+		>
+
+		<div ng-if="currentUser.sys_admin && currentAuthority.delay_destroy">
+            <br />
+            <br />
+            Recover Deleted:&nbsp;&nbsp;&nbsp;&nbsp;
+            <div ios-toggle model="grpCtrl.recover" true-value="grpCtrl.trueVal" false-value="grpCtrl.falseVal"></div>
+        </div>
+	</div>
+
+	<ul class="categories"
+		infinite-scroll="moreGroups()"
+        infinite-scroll-disabled="groupsLoading"
+        infinite-scroll-distance="0.4"
+	>
+		<li ng-class="{selected: !discoverGroup}">
+			<a href="#" ng-click="selectDiscoverGroup(undefined)">All</a>
+		</li>
+		<li
+			ng-repeat="group in groups | orderBy:'name' track by group.id"
+			ng-class="{selected: discoverGroup === group.id}"
+		>
+			<a href="#" ng-click="selectDiscoverGroup(group)">
+				{{group.name}}
+			</a>
+		</li>
+	</ul>
+	<div ng-if="groupsLoading">
+        <div class="spinner"></div>
+    </div>
+</div>

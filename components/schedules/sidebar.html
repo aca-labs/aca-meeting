@@ -1,0 +1,34 @@
+<div class="categories-wrapper schedules" ng-controller="SchedulesSidebarCtrl">
+    <h1>
+        Schedules
+    </h1>
+    <div class="search">
+        <input ng-model="$parent.$parent.groupsFilter"
+            placeholder="Filter Groups"
+            type="text"
+            ng-touch="$event.stopPropagation()"
+            user-select="true" 
+            no-capture
+        >
+
+        <div ng-if="$root.currentUser.sys_admin">
+            <br />
+            <br />
+            Channel Schedules:&nbsp;&nbsp;&nbsp;&nbsp;
+            <div ios-toggle model="$parent.onlyChannels"></div>
+        </div>
+    </div>
+    <ul
+        class="categories"
+        infinite-scroll="moreGroups()"
+        infinite-scroll-disabled="groupsLoading"
+        infinite-scroll-distance="0.4"
+    >
+        <li
+            ng-repeat="group in groups | orderBy:'name' track by group.id"
+            ng-class="{selected: selectedGroupID == group.id}"
+        >
+            <a href="#" ng-click="selectGroup(group)">{{group.name}}</a>
+        </li>
+    </ul>
+</div>
